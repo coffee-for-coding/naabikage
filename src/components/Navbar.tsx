@@ -11,7 +11,7 @@ type Props = {
 
 const NAV_LINKS: { label: string; href: string }[] = [
   { label: "WORK", href: "/" },
-  { label: "SKILLS", href: "/skills" },
+  { label: "SKETCHES", href: "/sketches" },
   { label: "ABOUT", href: "/about" },
 ];
 
@@ -67,7 +67,7 @@ export default function Navbar({ works = [] }: Props) {
             background: "transparent",
           }}
         >
-          NABI KAGE
+          NAABI KAGE
         </button>
 
         <nav

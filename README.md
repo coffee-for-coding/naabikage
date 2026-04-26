@@ -1,12 +1,12 @@
-# Nabi Kage — Art Portfolio
+# Naabi Kage — Art Portfolio
 
-A dark-then-light, minimalist gallery site for the artist **Nabi Kage**, built with **Next.js 14 (App Router)**, **TypeScript**, and **Tailwind**. The gallery auto-advances, the background animates with **Vanta.BIRDS** (Three.js), and every page transitions with a smooth ease-in fade.
+A dark-then-light, minimalist gallery site for the artist **Naabi Kage**, built with **Next.js 14 (App Router)**, **TypeScript**, and **Tailwind**. The gallery auto-advances, the background animates with **Vanta.BIRDS** (Three.js), and every page transitions with a smooth ease-in fade.
 
 ## Preview
 
 <video src="https://github.com/coffee-for-coding/Art-Page/raw/main/media/nabi-kage-arts.mp4" controls muted playsinline width="800">
   Your browser does not support embedded video.
-  <a href="media/nabi-kage-arts.mp4">Download the preview (Nabi Kage Arts.mp4)</a>
+  <a href="media/nabi-kage-arts.mp4">Download the preview (Naabi Kage Arts.mp4)</a>
 </video>
 
 > If the inline player does not render on GitHub, click here to watch / download:
@@ -62,9 +62,9 @@ Art-Page/
 │  │  ├─ globals.css         ← theme variables + page-transition keyframes
 │  │  ├─ page.tsx            ← Home (Gallery)
 │  │  ├─ about/page.tsx      ← About page (bio + email)
-│  │  └─ skills/page.tsx     ← Skills page (tech stack, experience, education)
+│  │  └─ sketches/page.tsx     ← Skills page (tech stack, experience, education)
 │  ├─ components/
-│  │  ├─ Navbar.tsx          ← logo + WORK/SKILLS/ABOUT + WORK year dropdown
+│  │  ├─ Navbar.tsx          ← logo + WORK/SKETCHES/ABOUT + WORK year dropdown
 │  │  ├─ Gallery.tsx         ← slide carousel, autoplay, prev/next previews, dots
 │  │  ├─ Slide.tsx           ← single artwork slide (image + caption)
 │  │  ├─ NavButton.tsx       ← left/right arrow buttons
@@ -166,9 +166,9 @@ If `public/images/` has zero year folders, the site uses `src/data/works.ts` as 
 
 ## 4. Edit page text
 
-### 4.1 Skills page (`/skills`)
+### 4.1 Skills page (`/sketches`)
 
-All content comes from [`src/data/skills.ts`](src/data/skills.ts). Three exports:
+All content comes from [`src/data/sketches.ts`](src/data/sketches.ts). Three exports:
 
 - `techStack` — array of `{ category, items[] }` (renders the 2×2 tech grid).
 - `experience` — array of jobs `{ role, company, period, type, description, highlights[] }`. `type` is `"fulltime" | "freelance" | "contract"` and renders as a small badge.
@@ -189,7 +189,7 @@ Open [`src/components/Navbar.tsx`](src/components/Navbar.tsx). The `NAV_LINKS` a
 ```ts
 const NAV_LINKS = [
   { label: "WORK", href: "/" },
-  { label: "SKILLS", href: "/skills" },
+  { label: "SKETCHES", href: "/sketches" },
   { label: "ABOUT", href: "/about" },
   { label: "JOURNAL", href: "/journal" }, // ← new
 ];
@@ -233,9 +233,9 @@ Open [`src/app/layout.tsx`](src/app/layout.tsx). Edit the `metadata` export:
 
 ```ts
 export const metadata: Metadata = {
-  title: "Nabi Kage",
-  description: "Selected works by Nabi Kage.",
-  openGraph: { title: "Nabi Kage", description: "…", type: "website" },
+  title: "Naabi Kage",
+  description: "Selected works by Naabi Kage.",
+  openGraph: { title: "Naabi Kage", description: "…", type: "website" },
 };
 ```
 
@@ -300,7 +300,7 @@ A — Make sure the path is `public/images/{4-digit-year}/{slug-folder}/{file}`.
 A — Yes. Drop them all into the same artwork folder; the **first** image (alphabetical) is used as the cover. Future-proofing for a "details" page is easy — `loadWorks()` could be extended to return an array of images instead of one.
 
 **Q — How do I change the artist name shown in the navbar?**
-A — Edit the button text in [`src/components/Navbar.tsx`](src/components/Navbar.tsx) (search for `NABI KAGE`). Also update the page title in [`src/app/layout.tsx`](src/app/layout.tsx).
+A — Edit the button text in [`src/components/Navbar.tsx`](src/components/Navbar.tsx) (search for `NAABI KAGE`). Also update the page title in [`src/app/layout.tsx`](src/app/layout.tsx).
 
 **Q — How do I disable the background animation?**
 A — Remove `<VantaBackground />` from [`src/app/layout.tsx`](src/app/layout.tsx) and set `background: var(--ink);` back on `body` in `globals.css`.

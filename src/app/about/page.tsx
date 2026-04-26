@@ -29,7 +29,7 @@ export default function AboutPage() {
               color: "var(--bone)",
             }}
           >
-            Nabi Kage
+            Naabi Kage
           </h1>
           <p
             style={{
@@ -41,7 +41,7 @@ export default function AboutPage() {
               marginBottom: 24,
             }}
           >
-            nabi kage is an artist working in oil, ink, and gold leaf. He practice circles the
+            naabi kage is an artist working in oil, ink, and gold leaf. He practice circles the
             edges of a single quiet room — a candle, a hand, a window — searching for what light
             does when no one is watching.
           </p>

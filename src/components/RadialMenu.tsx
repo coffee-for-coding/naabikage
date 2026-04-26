@@ -13,7 +13,7 @@ type RadialItem = { label: string; href: string };
 const INNER: RadialItem[] = [
   { label: "Work", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Skills", href: "/skills" },
+  { label: "Sketches", href: "/sketches" },
   { label: "Store", href: "#store" },
   { label: "Contact", href: "mailto:hello@nabikage.com" },
   { label: "Journal", href: "#journal" },
@@ -95,7 +95,7 @@ export default function RadialMenu({ open, onClose }: Props) {
             animation: "rm-fade-in 600ms var(--ease-out) 0.35s forwards",
           }}
         >
-          nabi kage
+          naabi kage
         </div>
 
         {INNER.map((item, i) => (

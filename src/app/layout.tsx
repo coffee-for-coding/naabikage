@@ -4,11 +4,11 @@ import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Nabi Kage",
-  description: "Selected works by Nabi Kage.",
+  title: "Naabi Kage",
+  description: "Selected works by Naabi Kage.",
   openGraph: {
-    title: "Nabi Kage",
-    description: "Selected works by Nabi Kage.",
+    title: "Naabi Kage",
+    description: "Selected works by Naabi Kage.",
     type: "website",
   },
 };
