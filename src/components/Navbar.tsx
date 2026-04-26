@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import RadialMenu from "./RadialMenu";
+import RadialMenu, { type RadialThumb } from "./RadialMenu";
 import type { Work } from "@/data/works";
 
 type Props = {
   works?: Work[];
+  thumbs?: RadialThumb[];
 };
 
 const NAV_LINKS: { label: string; href: string }[] = [
@@ -15,7 +16,12 @@ const NAV_LINKS: { label: string; href: string }[] = [
   { label: "ABOUT", href: "/about" },
 ];
 
-export default function Navbar({ works = [] }: Props) {
+export default function Navbar({ works = [], thumbs }: Props) {
+  const fallbackThumbs: RadialThumb[] = works
+    .filter((w) => w.image)
+    .slice(0, 8)
+    .map((w) => ({ id: w.id, image: w.image, title: w.title, href: "/" }));
+  const radialThumbs = thumbs && thumbs.length > 0 ? thumbs : fallbackThumbs;
   const [menuOpen, setMenuOpen] = useState(false);
   const [workOpen, setWorkOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,33 +44,39 @@ export default function Navbar({ works = [] }: Props) {
   return (
     <>
       <header
+        className="nav-header"
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           right: 0,
           zIndex: 50,
-          padding: "36px 56px",
-          minHeight: 96,
+          padding: "clamp(16px, 3.5vw, 36px) clamp(16px, 5vw, 56px)",
+          minHeight: 64,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: 12,
         }}
       >
         <button
           type="button"
           onClick={() => setMenuOpen(true)}
           aria-label="Open navigation menu"
+          className="nav-brand"
           style={{
             fontFamily: "var(--display)",
             fontWeight: 300,
-            fontSize: 40,
+            fontSize: "clamp(18px, 4.2vw, 40px)",
+            lineHeight: 1.1,
             letterSpacing: "0.1em",
             color: "var(--bone)",
             border: 0,
             outline: "none",
             boxShadow: "none",
             background: "transparent",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
           }}
         >
           NAABI KAGE
@@ -167,8 +179,11 @@ export default function Navbar({ works = [] }: Props) {
           style={{
             display: "none",
             color: "var(--bone)",
-            fontSize: 11,
+            fontSize: "clamp(10px, 2.6vw, 12px)",
             letterSpacing: "0.2em",
+            background: "transparent",
+            border: 0,
+            padding: 4,
           }}
         >
           {mobileOpen ? "CLOSE" : "MENU"}
@@ -207,15 +222,20 @@ export default function Navbar({ works = [] }: Props) {
         </div>
       )}
 
-      <RadialMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <RadialMenu open={menuOpen} onClose={() => setMenuOpen(false)} thumbs={radialThumbs} />
 
       <style jsx>{`
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           :global(.nav-center) {
             display: none !important;
           }
           :global(.nav-burger) {
             display: inline-flex !important;
+          }
+        }
+        @media (max-width: 480px) {
+          :global(.nav-header) {
+            padding: 14px 16px !important;
           }
         }
       `}</style>
@@ -229,7 +249,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
       href={href}
       style={{
         fontFamily: "var(--body)",
-        fontSize: 14,
+        fontSize: "clamp(11px, 1.4vw, 14px)",
         letterSpacing: "0.22em",
         textTransform: "uppercase",
       }}

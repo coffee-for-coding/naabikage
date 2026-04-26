@@ -83,14 +83,53 @@ export default function Gallery({ works }: Props) {
     );
   }
 
+  const touchRef = useRef<{ x: number; y: number; t: number } | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchRef.current = { x: t.clientX, y: t.clientY, t: Date.now() };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchRef.current;
+    touchRef.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    const dt = Date.now() - start.t;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    if (dt > 800) return;
+    advance(dx < 0 ? 1 : -1);
+  };
+
+  const pointerRef = useRef<{ x: number; y: number; id: number } | null>(null);
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "touch") return;
+    pointerRef.current = { x: e.clientX, y: e.clientY, id: e.pointerId };
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    const start = pointerRef.current;
+    pointerRef.current = null;
+    if (!start || start.id !== e.pointerId) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy)) return;
+    advance(dx < 0 ? 1 : -1);
+  };
+
   return (
     <section
       aria-label="Gallery"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       style={{
         position: "relative",
         height: "100vh",
         width: "100%",
         overflow: "hidden",
+        touchAction: "pan-y",
       }}
     >
       {works.map((w, i) => (
