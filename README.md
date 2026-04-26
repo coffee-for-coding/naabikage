@@ -20,7 +20,7 @@ This README is the operating manual: how to run the site, how to add new artwork
 ## 1. Quick start
 
 ```bash
-git clone https://github.com/coffee-for-coding/Art-Page.git
+git clone https://github.com/coffee-for-coding/nabikage.git
 cd Art-Page
 npm install
 npm run dev
