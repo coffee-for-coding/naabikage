@@ -52,32 +52,33 @@ Requirements: **Node 18.17+**.
 Art-Page/
 ├─ public/
 │  ├─ dp.png                 ← profile picture (used on About if you wire it)
-│  └─ images/
-│     └─ {YEAR}/{slug}/      ← every artwork lives here
-│        ├─ cover.jpg        ← any image file: jpg/jpeg/png/webp/avif/gif
-│        └─ meta.json        ← optional: title / series / medium / bg
+│  ├─ images/
+│  │  └─ {YEAR}/{slug}/      ← every artwork lives here
+│  │     ├─ cover.jpg        ← any image file: jpg/jpeg/png/webp/avif/gif
+│  │     └─ meta.json        ← optional: title / series / medium / bg
+│  └─ sketches/              ← every sketch lives here (flat folder)
+│     ├─ <slug>.png          ← any image file: jpg/jpeg/png/webp/avif/gif
+│     └─ <slug>.json         ← optional: title / date / medium / notes
 ├─ src/
 │  ├─ app/
 │  │  ├─ layout.tsx          ← <html>, fonts, Vanta background, page-transition wrapper
 │  │  ├─ globals.css         ← theme variables + page-transition keyframes
 │  │  ├─ page.tsx            ← Home (Gallery)
 │  │  ├─ about/page.tsx      ← About page (bio + email)
-│  │  └─ sketches/page.tsx     ← Skills page (tech stack, experience, education)
+│  │  └─ sketches/page.tsx   ← Sketches page (grid of sketch images + metadata)
 │  ├─ components/
 │  │  ├─ Navbar.tsx          ← logo + WORK/SKETCHES/ABOUT + WORK year dropdown
 │  │  ├─ Gallery.tsx         ← slide carousel, autoplay, prev/next previews, dots
 │  │  ├─ Slide.tsx           ← single artwork slide (image + caption)
 │  │  ├─ NavButton.tsx       ← left/right arrow buttons
 │  │  ├─ RadialMenu.tsx      ← logo-click radial overlay menu
-│  │  ├─ SkillCard.tsx       ← tech-stack category card
-│  │  ├─ TimelineItem.tsx    ← shared timeline row (experience + education)
 │  │  ├─ VantaBackground.tsx ← loads Three.js + Vanta.BIRDS into a fixed bg
 │  │  └─ PageTransition.tsx  ← rerouting fade-in keyed off pathname
 │  ├─ data/
-│  │  ├─ works.ts            ← seed artworks (used only if /public/images/ is empty)
-│  │  └─ skills.ts           ← tech stack, experience, education
+│  │  └─ works.ts            ← seed artworks (used only if /public/images/ is empty)
 │  └─ lib/
-│     └─ loadWorks.ts        ← scans /public/images/ at build time
+│     ├─ loadWorks.ts        ← scans /public/images/ at build time
+│     └─ loadSketches.ts     ← scans /public/sketches/ at build time
 ├─ next.config.js
 ├─ tailwind.config.ts
 ├─ tsconfig.json
@@ -166,17 +167,47 @@ If `public/images/` has zero year folders, the site uses `src/data/works.ts` as 
 
 ## 4. Edit page text
 
-### 4.1 Skills page (`/sketches`)
+### 4.1 Sketches page (`/sketches`)
 
-All content comes from [`src/data/sketches.ts`](src/data/sketches.ts). Three exports:
+The Sketches page renders a grid of sketch images, scanned at build time from `public/sketches/` by [`src/lib/loadSketches.ts`](src/lib/loadSketches.ts). **No code changes are required to add new sketches.**
 
-- `techStack` — array of `{ category, items[] }` (renders the 2×2 tech grid).
-- `experience` — array of jobs `{ role, company, period, type, description, highlights[] }`. `type` is `"fulltime" | "freelance" | "contract"` and renders as a small badge.
-- `education` — array of `{ degree, school, year, note }`.
+Folder convention (flat — no year subfolders):
 
-To add a job: append a new object to `experience`. Fields are typed; TypeScript will warn if you miss one. Order top-to-bottom in the file = order top-to-bottom on the page.
+```
+public/sketches/
+  dummy.png
+  dummy.json          ← optional metadata, same basename as image
+  study-hand.jpg
+  study-hand.json
+```
 
-To add a skill tag: push a string into the matching category's `items` array.
+Rules the loader enforces:
+
+| Layer        | Rule                                                                  |
+|--------------|-----------------------------------------------------------------------|
+| Image        | Any file with extension jpg/jpeg/png/webp/avif/gif.                   |
+| Metadata     | Optional `<basename>.json` alongside the image.                       |
+| Title        | From `meta.title`, otherwise the file basename.                       |
+| Sort order   | Alphabetical by basename.                                             |
+
+Optional `<basename>.json` shape — every key is optional:
+
+```json
+{
+  "title": "Dummy Sketch",
+  "date": "2026-04-26",
+  "medium": "Graphite on paper",
+  "notes": "Placeholder sketch entry."
+}
+```
+
+Step-by-step: add a new sketch
+
+1. Drop the image into `public/sketches/` (any filename).
+2. (Optional) Add `<same-basename>.json` next to it for title / date / medium / notes.
+3. Restart `npm run dev` — in production, the next `npm run build` picks it up.
+
+To remove a sketch, delete the image (and its JSON if present).
 
 ### 4.2 About page (`/about`)
 
