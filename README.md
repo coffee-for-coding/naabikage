@@ -2,6 +2,17 @@
 
 A dark-then-light, minimalist gallery site for the artist **Nabi Kage**, built with **Next.js 14 (App Router)**, **TypeScript**, and **Tailwind**. The gallery auto-advances, the background animates with **Vanta.BIRDS** (Three.js), and every page transitions with a smooth ease-in fade.
 
+## Preview
+
+<video src="https://github.com/coffee-for-coding/Art-Page/raw/main/media/nabi-kage-arts.mp4" controls muted playsinline width="800">
+  Your browser does not support embedded video.
+  <a href="media/nabi-kage-arts.mp4">Download the preview (Nabi Kage Arts.mp4)</a>
+</video>
+
+> If the inline player does not render on GitHub, click here to watch / download:
+> [media/nabi-kage-arts.mp4](media/nabi-kage-arts.mp4)
+
+
 This README is the operating manual: how to run the site, how to add new artwork, how to update the words on every page, and how to deploy.
 
 ---
